@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>후쿠오카 금토일 · 쇼핑과 휴식</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 레이아웃: 한 줄 세로 흐름. 고정 알약 내비 → 쇼핑 체크리스트 → 요일 타임라인 → 접는 팁 → 면세 안내 */
+:root{
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f2f5f5; --surface:#ffffff; --ink:#15272b; --muted:#566c72; --line:#d3dfe1;
+  --accent:#0e6b7a; --accent-soft:#dcefef;
+  --ok:#1f7a4d; --ok-soft:#e1f2e8;
+  --part:#8a5a00; --part-soft:#fbefd2;
+  --no:#a3402e; --no-soft:#f8e3de;
+  --font-display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-body:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a1d; --surface:#172428; --ink:#e4eef0; --muted:#9db1b7; --line:#2a3d42;
+    --accent:#5ec3d1; --accent-soft:#1b3a40;
+    --ok:#7fd3a4; --ok-soft:#173326;
+    --part:#f0c46a; --part-soft:#3a2f14;
+    --no:#f09a86; --no-soft:#3d221c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1a1d; --surface:#172428; --ink:#e4eef0; --muted:#9db1b7; --line:#2a3d42;
+  --accent:#5ec3d1; --accent-soft:#1b3a40;
+  --ok:#7fd3a4; --ok-soft:#173326;
+  --part:#f0c46a; --part-soft:#3a2f14;
+  --no:#f09a86; --no-soft:#3d221c;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);
+  line-height:1.65;font-size:16px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:640px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header .wrap{padding-block:28px 6px}
+h1{font-family:var(--font-display);font-size:1.75rem;line-height:1.3;margin:0 0 8px;font-weight:400;letter-spacing:-0.01em;text-wrap:balance}
+h2{font-family:var(--font-display);font-size:1.3rem;margin:0 0 12px;font-weight:400;text-wrap:balance}
+h3{font-size:1rem;margin:18px 0 8px;font-weight:700}
+.sub{color:var(--muted);margin:0;font-size:.95rem}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.facts li{font-size:.82rem;padding:3px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:16px}
+nav ul{list-style:none;margin:0 auto;display:flex;gap:8px;max-width:640px;overflow-x:auto;scrollbar-width:none;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav ul::-webkit-scrollbar{display:none}
+nav a{display:block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink);text-decoration:none;font-size:.9rem;white-space:nowrap;background:var(--surface)}
+a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+main.wrap{padding-block:4px 32px}
+section{margin-top:32px}
+
+.chip{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.02em;padding:1px 8px;border-radius:999px;
+  vertical-align:2px;margin-left:4px;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.part{background:var(--part-soft);color:var(--part)}
+.chip.no{background:var(--no-soft);color:var(--no)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.82rem;color:var(--muted);margin:0 0 12px}
+.legend .chip{margin-left:0;margin-right:4px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.shops{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.shops li + li{border-top:1px solid var(--line);padding-top:14px}
+.shops label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.shops input{width:22px;height:22px;margin-top:3px;accent-color:var(--accent);flex:none}
+.shops .body{min-width:0}
+.shops strong{display:block}
+.shops .desc{display:block;color:var(--muted);font-size:.9rem}
+.shops input:checked + .body strong{text-decoration:line-through;color:var(--muted)}
+.alt{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:.86rem;color:var(--muted)}
+.alt li::before{content:"└ ";color:var(--line)}
+
+.stops{border-left:3px solid var(--accent);margin:0;padding:0 0 0 16px;list-style:none}
+.stops li{position:relative;padding:0 0 18px}
+.stops li:last-child{padding-bottom:4px}
+.stops li::before{content:"";position:absolute;left:-23px;top:9px;width:11px;height:11px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--accent)}
+.t{font-weight:700;color:var(--accent);font-size:.92rem;margin-right:8px;font-variant-numeric:tabular-nums}
+.what{font-weight:500}
+.note{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
+.map{display:inline-block;margin-top:6px;margin-right:12px;font-size:.85rem;color:var(--accent);text-decoration:underline}
+.rest{background:var(--accent-soft);border-radius:8px;padding:2px 8px;font-size:.82rem;color:var(--accent);font-weight:500;margin-left:6px;white-space:nowrap}
+
+.changed{background:var(--no-soft);border-left:4px solid var(--no);padding:12px 14px;border-radius:8px;font-size:.9rem;margin:0 0 16px}
+.changed b{color:var(--no)}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:10px}
+summary{cursor:pointer;font-weight:500}
+details > *:not(summary){font-size:.92rem}
+details ul{margin:10px 0 0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
+details p{margin:10px 0 0;color:var(--muted)}
+details h3{color:var(--ink);font-size:.95rem}
+details b{color:var(--ink);font-weight:500}
+
+.tax{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.tax-row{display:grid;grid-template-columns:7.5em 1fr;gap:12px;padding:12px 16px}
+.tax-row + .tax-row{border-top:1px solid var(--line)}
+.tax-row .when{font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums}
+.tax-row .how{min-width:0;font-size:.92rem}
+.tax-row.new{background:var(--part-soft)}
+.warn{background:var(--part-soft);border-left:4px solid var(--part);padding:12px 14px;border-radius:8px;font-size:.9rem;margin:12px 0 0}
+.small{color:var(--muted);font-size:.86rem}
+footer .wrap{padding-block:0 40px;color:var(--muted);font-size:.82rem}
+@media (max-width:360px){.tax-row{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>후쿠오카 금토일<br>쇼핑과 휴식</h1>
+    <p class="sub">엄마, 아빠, 9개월 아기 · 하카타역 숙소 1곳 고정 · 이동은 택시 위주</p>
+    <ul class="facts">
+      <li>2박 3일</li>
+      <li>금 정오 도착 가정</li>
+      <li>날짜·항공편 미정</li>
+    </ul>
+  </div>
+</header>
+
+<nav aria-label="일정 이동">
+  <ul>
+    <li><a href="#shops">쇼핑 목록</a></li>
+    <li><a href="#fri">금</a></li>
+    <li><a href="#sat">토</a></li>
+    <li><a href="#sun">일</a></li>
+    <li><a href="#tips">팁</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+  <section id="shops">
+    <h2>메인 쇼핑 3곳</h2>
+    <p class="changed"><b>10/26 재확인으로 바뀐 점</b><br>몽벨 캐널시티 하카타점은 2023년 1월 31일에 문을 닫았어요. 몽벨 공식 매장 검색에도 없어요. 그래서 금요일 오후를 <b>몽벨 텐진점</b>으로 바꿨어요.</p>
+    <p class="legend">
+      <span><span class="chip ok">확인</span>공식 사이트 기준</span>
+      <span><span class="chip part">부분 확인</span>후기·자료 엇갈림</span>
+      <span><span class="chip no">미확인</span>현지·공식 문의 필요</span>
+    </p>
+    <div class="card">
+      <ul class="shops">
+        <li><label for="shop-bao"><input type="checkbox" id="shop-bao" data-k="bao">
+          <span class="body"><strong>바오바오 이세이 미야케 · 하카타 한큐</strong>
+          <span class="desc">하카타 한큐 1층, 하카타역 직결. 백화점 공식 층별 안내에 있어요 <span class="chip ok">확인</span><br>
+          오후엔 재고가 거의 없다는 후기가 있어서 금요일 첫 일정으로 가요.</span>
+          <ul class="alt">
+            <li>2순위: 이와타야 본점 신관 1층(텐진). 금요일 몽벨 텐진점과 가까워서 같이 들를 수 있어요 <span class="chip ok">확인</span></li>
+            <li>3순위: 후쿠오카 공항 국제선 출국장 안 매장. 공항 면세점 공식 브랜드 목록에 있어요 <span class="chip ok">확인</span> 층과 위치는 자료마다 달라요(1층·3층) <span class="chip part">부분 확인</span></li>
+          </ul></span></label></li>
+        <li><label for="shop-akachan"><input type="checkbox" id="shop-akachan" data-k="akachan">
+          <span class="body"><strong>아카짱혼포 · 라라포트 후쿠오카</strong>
+          <span class="desc">라라포트 후쿠오카 몰동 3층, 영업 10:00~21:00, 면세 대응. 라라포트 공식 숍 가이드와 아카짱혼포 매장 페이지에 있어요 <span class="chip ok">확인</span><br>
+          임신부터 생후 12개월 무렵까지 상품에 집중한 매장이라 9개월 아기에게 맞아요.</span></span></label></li>
+        <li><label for="shop-montbell"><input type="checkbox" id="shop-montbell" data-k="montbell">
+          <span class="body"><strong>몽벨 · 후쿠오카 텐진점</strong>
+          <span class="desc">텐진 2-4-38 NTT-KF빌딩 1층, 영업 10:30~21:00, 연중무휴 <span class="chip ok">확인</span><br>
+          재고는 몽벨 공식 온라인스토어의 직영점 재고 조회나 매장 전화(092-718-2402)가 가장 정확해요.</span>
+          <ul class="alt">
+            <li>캐널시티 하카타점은 2023년 1월 폐점 <span class="chip ok">확인</span></li>
+            <li>몽벨 대신 아웃도어 매장이면 충분하다면: 캐널시티 알펜 아웃도어즈 플래그십(Alpen FUKUOKA, 10:00~21:00). 몽벨 상품을 파는지는 몰라요 <span class="chip no">미확인</span></li>
+            <li>큰 직영점은 트리아스점(가스야군 히사야마)이 있지만 차로 가야 해서 뺐어요.</li>
+          </ul></span></label></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="fri">
+    <h2>금 · 하카타역과 텐진</h2>
+    <ul class="stops">
+      <li><span class="t">12:00</span><span class="what">후쿠오카 도착, 지하철로 하카타역 이동</span>
+        <span class="note">공항에서 하카타역까지 약 5분이에요.</span></li>
+      <li><span class="t">12:30</span><span class="what">호텔에 짐 맡기기</span></li>
+      <li><span class="t">13:00</span><span class="what">하카타 한큐 1층 바오바오, 점심은 건물 안에서</span>
+        <span class="note">재고가 빨리 빠지니 이날 첫 일정으로 가요.</span>
+        <a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%9A%E5%A4%9A%E9%98%AA%E6%80%A5" target="_blank" rel="noopener">지도 열기</a></li>
+      <li><span class="t">15:30</span><span class="what">택시로 텐진 이동, 몽벨 텐진점</span>
+        <span class="note">바오바오를 못 샀다면 이와타야 본점 신관 1층도 들러요. 두 곳 모두 주소가 텐진 2초메예요.</span>
+        <span class="note">하카타역↔텐진 택시 시간은 자료를 못 찾았어요 <span class="chip no">미확인</span> 지하철 공항선으로도 바로 연결돼요.</span>
+        <a class="map" href="https://www.google.com/maps/search/?api=1&query=%E3%83%A2%E3%83%B3%E3%83%99%E3%83%AB%20%E7%A6%8F%E5%B2%A1%E5%A4%A9%E7%A5%9E%E5%BA%97" target="_blank" rel="noopener">몽벨 지도</a><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%B2%A9%E7%94%B0%E5%B1%8B%E6%9C%AC%E5%BA%97%20%E6%96%B0%E9%A4%A8" target="_blank" rel="noopener">이와타야 지도</a></li>
+      <li><span class="t">17:30</span><span class="what">택시로 호텔 복귀, 이른 저녁 후 휴식</span><span class="rest">휴식</span></li>
+    </ul>
+  </section>
+
+  <section id="sat">
+    <h2>토 · 라라포트와 휴식</h2>
+    <ul class="stops">
+      <li><span class="t">10:00</span><span class="what">조식 후 택시로 라라포트 후쿠오카 이동</span>
+        <span class="note">JR 다케시타역에서 걸으면 약 9분이라 유모차로는 택시가 편해요 <span class="chip ok">확인</span></span>
+        <span class="note">하카타역에서 택시 소요 시간은 자료가 없어요 <span class="chip no">미확인</span></span></li>
+      <li><span class="t">10:30</span><span class="what">아카짱혼포 쇼핑, 점심도 라라포트에서</span>
+        <span class="note">라라포트는 10:00~21:00이에요. 공식 숍 가이드도 방문 전 최신 시간 확인을 권해요.</span>
+        <a class="map" href="https://www.google.com/maps/search/?api=1&query=%E3%83%A9%E3%83%A9%E3%83%9D%E3%83%BC%E3%83%88%E7%A6%8F%E5%B2%A1" target="_blank" rel="noopener">지도 열기</a></li>
+      <li><span class="t">14:00</span><span class="what">택시로 호텔 복귀, 낮잠과 휴식</span><span class="rest">오후 통째로 휴식</span></li>
+      <li><span class="t">18:00</span><span class="what">호텔 근처에서 간단히 저녁</span></li>
+    </ul>
+  </section>
+
+  <section id="sun">
+    <h2>일 · 마무리와 귀국</h2>
+    <ul class="stops">
+      <li><span class="t">11:00</span><span class="what">늦은 체크아웃, 짐은 호텔에 맡기기</span></li>
+      <li><span class="t">11:30</span><span class="what">하카타역에서 못 산 것과 선물 쇼핑</span></li>
+      <li><span class="t">출발 3시간 전</span><span class="what">지하철로 공항 이동</span></li>
+      <li><span class="t">출국 수속 후</span><span class="what">바오바오를 아직 못 샀다면 출국장 매장 확인</span>
+        <span class="note">"들어가서 왼쪽으로 쭉"이라는 후기가 있지만, 2025년에 매장 구성이 바뀌었다는 기록도 있어서 층과 위치는 현장 안내를 보세요 <span class="chip part">부분 확인</span></span>
+        <span class="note">후기 작성자는 공항에 이와타야 게스트 카드 5% 할인이 없어서 시내가 더 싸다고 정리했어요(구제도·2024년 기준).</span></li>
+    </ul>
+  </section>
+
+  <section id="tips">
+    <h2>팁</h2>
+    <details open>
+      <summary>숙소</summary>
+      <ul>
+        <li>하카타역 직결이나 도보권 일반 호텔이 이동이 가장 적어요.</li>
+        <li>예약 전에 <b>전자레인지, 냉장고, 아기 침대 대여</b> 여부를 호텔에 문의하세요.</li>
+      </ul>
+      <h3>후보 호텔</h3>
+      <ul>
+        <li><b>호텔 닛코 후쿠오카</b>: 설비 <span class="chip no">미확인</span></li>
+        <li><b>그랜드 하얏트 후쿠오카</b>(캐널시티 안): 몽벨이 폐점해서 캐널시티 근처라는 장점은 줄었어요. 아멕스 혜택은 아래 참고. 설비 <span class="chip no">미확인</span></li>
+        <li><b>호텔 몬터레이 라 스엘 후쿠오카</b>: 주소가 주오구 다이묘로 <b>텐진 쪽</b>이에요. 하카타역 숙소 조건과 맞지 않아요 <span class="chip ok">확인</span></li>
+      </ul>
+      <h3>취사가 필요하면 아파트형</h3>
+      <p class="small" style="margin-top:0">역에서 약 1km 떨어져 이동이 늘어요. 아래는 예약 사이트 소개 글 기준이고 영업 여부는 다시 확인하지 않았어요 <span class="chip no">미확인</span></p>
+      <ul>
+        <li><b>레가티오 하카타에키히가시</b>: 간이 주방, 전자레인지, 아기 침대 없음</li>
+        <li><b>레토아 하카타에키미나미</b>: 주방, 전자레인지</li>
+        <li><b>레지던스 호텔 하카타 Station2</b>: 프런트 없음, 아기 침대 없음</li>
+        <li><b>트립베이스 하카타에키마에</b>: 역에서 도보 약 15분, IH 콘로</li>
+      </ul>
+      <h3>아멕스 카드 혜택</h3>
+      <ul>
+        <li>그랜드 하얏트 후쿠오카는 아멕스 호텔 컬렉션 입점, 2박 이상이면 대상 <span class="chip ok">확인</span></li>
+        <li>플래티넘 기준 안내: 객실 업그레이드, 호텔 내 100달러 크레딧, 12시 체크인, 오후 4시 레이트 체크아웃</li>
+        <li>조식 2인 혜택은 2027년 1월 1일 이후 숙박분 문구와 섞여 있어 지금 적용되는지 불분명해요 <span class="chip no">미확인</span></li>
+        <li>보유 카드가 어느 등급인지 먼저 확인하세요. 혜택은 등급마다 달라요.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>아기와 이동</summary>
+      <ul>
+        <li>가벼운 접이식 유모차를 추천해요.</li>
+        <li>택시는 카시트가 없는 경우가 많아서 가까운 거리 위주로 타세요.</li>
+        <li>공항↔하카타역, 하카타역↔텐진은 지하철 공항선 한 줄로 이어져요.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>식사</summary>
+      <ul>
+        <li>쇼핑하는 건물 안에서 해결하면 이동이 줄어요(금 한큐, 토 라라포트).</li>
+        <li>테이블석과 유아 의자가 있는 곳을 고르세요.</li>
+        <li>짠 국물 음식은 아기에게 부담이라 이유식은 따로 챙기세요.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="tax">
+    <h2>면세 · 11월 1일부터 바뀌어요</h2>
+    <div class="tax">
+      <div class="tax-row">
+        <span class="when">~2026.10.31</span>
+        <span class="how">매장에서 세금 뺀 가격으로 바로 구매</span>
+      </div>
+      <div class="tax-row new">
+        <span class="when">2026.11.1 구매분~</span>
+        <span class="how">매장에서는 <b>세금 포함 가격</b>으로 사고, 출국 때 세관에서 반출 확인 후 소비세를 돌려받아요(리파운드 방식) <span class="chip ok">확인</span></span>
+      </div>
+    </div>
+    <p class="warn">위탁 수하물에 넣을 면세 구매품은 짐을 부치기 전에 확인 절차가 필요한지 공식 안내에서 확인하세요 <span class="chip no">미확인</span></p>
+    <p class="small">블로그 후기의 면세 수수료 1.55%, 현금 환급, 공항 가격, 카카오페이 할인은 구제도나 2024년 기준이라 지금과 다를 수 있어요.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>2026년 10월 26일 재확인. 매장 위치와 영업시간은 각 공식 사이트 기준이에요. 방문 직전에 한 번 더 확인하세요.</p>
+</div></footer>
+
+<script>
+(function(){
+  var boxes=document.querySelectorAll('input[data-k]');
+  boxes.forEach(function(b){
+    try{ if(localStorage.getItem('fuk-'+b.dataset.k)==='1') b.checked=true; }catch(e){}
+    b.addEventListener('change',function(){
+      try{ localStorage.setItem('fuk-'+b.dataset.k, b.checked?'1':'0'); }catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
